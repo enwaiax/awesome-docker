@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  web:
+    image: enwaiax/firefox_send:latest
+    links:
+      - redis
+    ports:
+      - "1443:1443"
+    environment:
+      - REDIS_HOST=redis
+  redis:
+    image: redis:alpine
