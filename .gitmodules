@@ -1,0 +1,3 @@
+[submodule "firefox_send/send"]
+	path = firefox_send/send
+	url = https://github.com/mozilla/send.git
