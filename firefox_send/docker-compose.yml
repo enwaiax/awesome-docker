@@ -1,12 +1,14 @@
 version: "3.8"
 services:
   web:
-    image: enwaiax/firefox_send:latest
+    image: enwaiax/firefox_send:plus
     links:
       - redis
     ports:
       - "1443:1443"
+    restart: unless-stopped
     environment:
       - REDIS_HOST=redis
   redis:
     image: redis:alpine
+    restart: unless-stopped
