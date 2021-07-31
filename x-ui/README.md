@@ -11,7 +11,7 @@ Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 ### docker compose 部署
 ```shell
 mkdir x-ui && cd x-ui
-wget https://raw.githubusercontent.com/enwaiax/dockerfiles/main/x-ui/docker-compose.yml
+wget https://raw.githubusercontent.com/Chasing66/beautiful_docker/main/x-ui/docker-compose.yml
 docker-compose up -d
 ```
 
