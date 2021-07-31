@@ -5,6 +5,6 @@ services:
     container_name: x-ui
     volumes:
       - $PWD/db/:/etc/x-ui/
-      - ./cert/:/root/cert/
+      - $PWD/cert/:/root/cert/
     restart: always
     network_mode: host
