@@ -1,4 +1,4 @@
-# v-ui
+# x-ui
 
 GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker)  
 Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
