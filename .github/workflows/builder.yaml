@@ -1,4 +1,5 @@
-name: builder
+name: "docker build release"
+
 on: 
   workflow_dispatch:
     inputs:
@@ -8,27 +9,13 @@ on:
         default: 
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -42,25 +29,24 @@ jobs:
         with:
           string: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.inputs.project }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./${{ github.event.inputs.project }}/Dockerfile
-          platforms: linux/arm,linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.string.outputs.lowercase }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
-      - name: Move cache
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          docker buildx build \
+          --platform=linux/amd64,linux/arm64 \
+          --output "type=image,push=true" \
+          --file ${{ github.event.inputs.project }}/Dockerfile ./${{ github.event.inputs.project }} \
+          --tag ${{ steps.string.outputs.lowercase }}/${{ github.event.inputs.project }}:latest \
 
       - name: Sync README.md
         uses: ms-jpq/sync-dockerhub-readme@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.inputs.project }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.inputs.project }}
           readme: "${{ github.event.inputs.project }}/README.md"
