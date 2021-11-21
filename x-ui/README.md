@@ -7,6 +7,11 @@ Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 ## 简介
 基于 [vaxilu/x-ui](https://github.com/vaxilu/x-ui) 项目的 docker 镜像.
 
+### docker 部署
+```shell
+mkdir x-ui && cd x-ui
+docker run -itd --network=host -v $PWD/db/:/etc/x-ui/ -v $PWD/cert/:/root/cert/ --name x-ui --restart=unless-stopped enwaiax/x-ui:latest
+```
 
 ### docker compose 部署
 ```shell
@@ -23,6 +28,9 @@ docker-compose up -d
 
 ## 使用
 访问`http://服务器IP:54321`使用账号`admin`密码`admin`登录.注意需开放相关端口防火墙,并及时修改账号密码.
+
+## 忘记密码
+删除当前路径下的db目录，重新部署容器，密码会被重置为`admin`
 
 ## 参考
 GitHub [vaxilu/x-ui](https://github.com/vaxilu/x-ui)  
