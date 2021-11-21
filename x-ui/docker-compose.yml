@@ -6,5 +6,5 @@ services:
     volumes:
       - $PWD/db/:/etc/x-ui/
       - $PWD/cert/:/root/cert/
-    restart: always
+    restart: unless-stopped
     network_mode: host

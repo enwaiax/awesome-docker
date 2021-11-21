@@ -5,7 +5,7 @@ Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 > *docker image support for AMD64 and ARM64
 
 ## 简介
-基于 [sprov065/x-ui](https://github.com/sprov065/x-ui) 项目的 docker 镜像.
+基于 [vaxilu/x-ui](https://github.com/vaxilu/x-ui) 项目的 docker 镜像.
 
 
 ### docker compose 部署
@@ -25,5 +25,5 @@ docker-compose up -d
 访问`http://服务器IP:54321`使用账号`admin`密码`admin`登录.注意需开放相关端口防火墙,并及时修改账号密码.
 
 ## 参考
-GitHub [sprov065/x-ui](https://github.com/sprov065/x-ui)  
+GitHub [vaxilu/x-ui](https://github.com/vaxilu/x-ui)  
 GitHub [stilleshan/dockerfiles](https://github.com/stilleshan/dockerfiles)  
