@@ -1,5 +1,4 @@
 FROM golang:latest AS builder
-RUN apt-get update && apt-get install -y curl wget jq unzip
 WORKDIR /root
 COPY x-ui .
 RUN go build main.go
@@ -14,6 +13,5 @@ ENV TZ=Asia/Shanghai
 WORKDIR /root
 COPY --from=builder  /root/main /root/x-ui
 COPY x-ui/bin/. /root/bin/.
-# COPY --from=builder  /root/xray/. /root/bin/.
 VOLUME [ "/etc/x-ui" ]
 CMD [ "./x-ui" ]
