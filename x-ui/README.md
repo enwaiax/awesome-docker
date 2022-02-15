@@ -1,6 +1,6 @@
 # x-ui
 
-GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker)  
+GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker/tree/main/x-ui)  
 Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 > *docker image support for AMD64 and ARM64
 
