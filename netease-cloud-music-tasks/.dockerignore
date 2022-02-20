@@ -1,0 +1,12 @@
+NeteaseCloudMusicTasks/.github/
+NeteaseCloudMusicTasks/__pycache__/
+NeteaseCloudMusicTasks/.env/
+NeteaseCloudMusicTasks/.user_data
+NeteaseCloudMusicTasks/public/
+NeteaseCloudMusicTasks/serverless/
+NeteaseCloudMusicTasks/.dockerignore
+NeteaseCloudMusicTasks/Dockerfile
+NeteaseCloudMusicTasks/.gitignore
+NeteaseCloudMusicTasks/ql_update.py
+NeteaseCloudMusicTasks/README.md
+

@@ -1,3 +1,5 @@
 *.db
 *.crt
 *.key
+config.json
+.vscode
