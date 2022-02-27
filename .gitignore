@@ -1,5 +1,5 @@
 *.db
 *.crt
 *.key
-config.json
+netease-cloud-music-tasks/config.json
 .vscode

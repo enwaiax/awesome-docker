@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  Aria2-Pro:
+    container_name: aria2-pro
+    image: p3terx/aria2-pro
+    environment:
+      - PUID=65534
+      - PGID=65534
+      - UMASK_SET=022
+      - RPC_SECRET=P3TERX
+      - RPC_PORT=6800
+      - LISTEN_PORT=6888
+      - DISK_CACHE=64M
+      - IPV6_MODE=false
+      - UPDATE_TRACKERS=true
+      - TZ=Asia/Shanghai
+      - SPECIAL_MODE=rclone
+    volumes:
+      - ${PWD}/aria2-config:/config
+      - ${PWD}/aria2-downloads:/downloads
+    network_mode: host
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+
+  DownloadBot:
+    container_name: download-bot
+    image: enwaiax/download-bot:latest
+    volumes:
+      - ${PWD}/config.json:/root/config.json
+      - ${PWD}/aria2-downloads:/downloads
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m

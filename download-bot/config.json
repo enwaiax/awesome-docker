@@ -1,0 +1,11 @@
+{
+  "aria2-server": "ws://127.0.0.1:6800/jsonrpc",
+  "aria2-key": "xxxxxxxx",
+  "bot-key": "123456789:xxxxxxxxx",
+  "user-id": "123456789",
+  "max-index": 10,
+  "sign": "Main Aria2",
+  "language": "zh-CN",
+  "downloadFolder": "/downloads",
+  "moveFolder": "/moveFolder"
+}
