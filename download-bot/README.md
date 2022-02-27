@@ -21,7 +21,7 @@ curl -fsSL -o config.json https://raw.githubusercontent.com/Chasing66/beautiful_
 
 ```
 docker run -itd --restart=on-failure \
-    -v $(PWD)/config.json:/root/config.json \
+    -v $PWD/config.json:/root/config.json \
     --name download-bot \
     enwaiax/download-bot:latest
 ```
