@@ -1,7 +1,7 @@
 # x-ui
 
 GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker/tree/main/download-bot)  
-Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/download-bot)
+Docker [enwaiax/download-bot](https://hub.docker.com/r/enwaiax/download-bot)
 
 > \*docker image support for AMD64 and ARM64
 
