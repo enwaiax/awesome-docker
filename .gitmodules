@@ -7,6 +7,7 @@
 [submodule "netease-cloud-music-tasks/NeteaseCloudMusicTasks"]
 	path = netease-cloud-music-tasks/NeteaseCloudMusicTasks
 	url = https://github.com/chen310/NeteaseCloudMusicTasks.git
+	branch = main
 [submodule "download-bot/DownloadBot"]
 	path = download-bot/DownloadBot
 	url = https://github.com/gaowanliang/DownloadBot.git
