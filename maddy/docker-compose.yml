@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  maddy:
+    image: enwaiax/maddy
+    container_name: maddy
+    restart: on-failure
+    environment:
+      - MADDY_HOSTNAME=$MADDY_HOSTNAME
+      - MADDY_DOMAIN=$MADDY_DOMAIN
+    volumes:
+      - maddydata:/data
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  maddydata:
+    driver: local
+    name: maddydata
