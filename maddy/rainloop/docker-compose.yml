@@ -19,7 +19,7 @@ services:
       - ./rainloop:/usr/share/nginx/html
       - ./rainloop.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - 180:80
+      - 80:80
     logging:
       driver: json-file
       options:
