@@ -3,7 +3,7 @@ services:
   maddy:
     image: enwaiax/maddy
     container_name: maddy
-    restart: on-failure
+    restart: unless-stopped
     environment:
       - MADDY_HOSTNAME=$MADDY_HOSTNAME
       - MADDY_DOMAIN=$MADDY_DOMAIN
