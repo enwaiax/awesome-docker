@@ -1,6 +1,6 @@
-version: '3.8'
+version: '3.9'
 services:
-  x-ui:
+  xui:
     image: enwaiax/x-ui
     container_name: x-ui
     volumes:
