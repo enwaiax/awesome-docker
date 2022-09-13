@@ -14,3 +14,4 @@
 [submodule "maddy/maddy"]
 	path = maddy/maddy
 	url = https://github.com/foxcpp/maddy.git
+	branch = master
