@@ -4,6 +4,8 @@ GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docke
 Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 > *docker image support for AMD64 and ARM64
 
+[English Version](docs/README_en.md)
+
 ## 简介
 基于 [vaxilu/x-ui](https://github.com/vaxilu/x-ui) 项目的 docker 镜像.
 
