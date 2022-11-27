@@ -1,55 +1,67 @@
-# x-ui
+# x-ui docker image
 
-GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker/tree/main/x-ui)  
-Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
+Go to [Chasing66/x-ui](https://github.com/Chasing66/x-ui) to check the latest update
 
-> \*docker image support for AMD64 and ARM64
+> x-ui in docker version
 
-## Introduction
+You could selecet your perfer one by changing the docker image tag
 
-Docker image based on [vaxilu/x-ui](https://github.com/vaxilu/x-ui)
+|                                                           | Tag    | amd64 | arm64 | armv7 | armv6 | s390x |
+| --------------------------------------------------------- | ------ | ----- | ----- | ----- | ----- | ----- |
+| [vaxilu/x-ui](https://github.com/vaxilu/x-ui)             | latest | ✅    | ✅    | ✅    | ✅    | ✅    |
+| [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-ui) | alpha  | ✅    | ✅    | ❌    | ❌    | ✅    |
 
-## Pre-condition
+### Why Should You Use Docker
 
-- Docker has been installed on your system
+- Consistent & Isolated Environment
+- Rapid Application Deployment
+- Ensures Scalability & Flexibility
+- Better Portability
+- Cost-Effective
+- In-Built Version Control System
+- Security
+- .....
+
+### For this project, if you use docker
+
+- You don't need to concern yourself with operating systems, architectures and other issues.
+- You will never ruin your Linux server. If you don't want to use it, you can stop or remove it from your environment exactly.
+- Last but not least, you can easily deploy and upgrade
+
+### Hot to use it
+
+#### Pre-condition, Docker is installed
+
+Use the official one-key script
 
 ```bash
 curl -sSL https://get.docker.com/ | sh
 ```
 
-### Deployed by docker
+#### Start you container
 
-```shell
+##### You could use the pre-build docker image enwaiax/xuiplus
+
+```
 mkdir x-ui && cd x-ui
 docker run -itd --network=host \
     -v $PWD/db/:/etc/x-ui/ \
     -v $PWD/cert/:/root/cert/ \
     --name x-ui --restart=unless-stopped \
-    enwaiax/x-ui:latest
+    enwaiax/x-ui
 ```
 
-### Deployed by docker compose
+Note: If you want to use [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-ui), change the image as `enwaiax/x-ui:alpha`
 
-```shell
+##### Or you could use docker compose to start it
+
+```
 mkdir x-ui && cd x-ui
-wget https://raw.githubusercontent.com/Chasing66/beautiful_docker/main/x-ui/docker-compose.yml
+wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
 docker compose up -d
 ```
 
-### Backup
-
-All the data is stored under current folder named `db`. Backup this folder.
-
-## How to use
-
-Visit `http://{your server ip}:54321` with username `admin` and password `admin`
-
-### Note:
-
-- Remember to change it after first login
-- Check your firewall if you can't visit it
-
-## Enable ssl
+#### How to enable ssl to your x-ui panel
 
 This part describe how to enable ssl.
 
@@ -59,7 +71,7 @@ This part describe how to enable ssl.
 - Suppose you are using Debian 10+ or Ubuntu 18+ system
 - Suppose your email is `xxxx@example.com`
 
-### Steps as below
+##### Steps as below
 
 1. Install nginx and python3-certbot-nginx
 
@@ -69,7 +81,6 @@ sudo apt install python3-certbot-nginx
 ```
 
 2. Add new nging configurtion
-   `touch /etc/nginx/conf.d/
 
 ```
 touch /etc/nginx/conf.d/xui.conf
@@ -90,18 +101,28 @@ server {
         proxy_set_header Host $host;
     }
 
+    # This part desribe how to reverse websockt proxy
+     location /xray {
+         proxy_redirect off;
+         proxy_pass http://127.0.0.1:10001;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection "upgrade";
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header Host $http_host;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header Y-Real-IP $realip_remote_addr;
+     }
 }
 ```
 
-3. Get cert
-
-Check yout conf is OK
+3. Check yout conf is OK
 
 ```
 nginx -t
 ```
 
-Get cert
+4. Get cert
 
 ```
 certbot --nginx --agree-tos --no-eff-email --email xxxxx@example.com
@@ -109,8 +130,14 @@ certbot --nginx --agree-tos --no-eff-email --email xxxxx@example.com
 
 For more details, refer to [cerbot](https://certbot.eff.org/)
 
-Reload nginx config
+5. Reload nginx config
 
 ```
 ngins -s reload
+```
+
+6. Test automatic renewal
+
+```
+sudo certbot renew --dry-run
 ```
