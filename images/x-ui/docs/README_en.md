@@ -57,7 +57,7 @@ Note: If you want to use [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-u
 
 ```
 mkdir x-ui && cd x-ui
-curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/x-ui/docker-compose.yml
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/images/x-ui/docker-compose.yml
 docker compose up -d
 ```
 

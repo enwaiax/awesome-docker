@@ -17,7 +17,7 @@
 每个项目目录应包含：
 
 ```text
-<project>/
+images/<project>/
 ├── Dockerfile
 ├── docker-compose.yml   # 如果适合 Compose 部署
 ├── README.md

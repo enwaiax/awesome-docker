@@ -40,8 +40,8 @@ export const projects: Project[] = [
     icon: 'M',
     image: 'enwaiax/maddy',
     upstream: 'https://github.com/foxcpp/maddy',
-    sourcePath: 'maddy',
-    guidePath: 'maddy/README.md',
+    sourcePath: 'images/maddy',
+    guidePath: 'images/maddy/README.md',
     architectures: ['AMD64', 'ARM64'],
     tags: ['Mail', 'TLS', 'Self-hosted'],
     ports: ['25', '143', '465', '587', '993'],
@@ -53,7 +53,7 @@ export const projects: Project[] = [
   -p 25:25 -p 143:143 -p 465:465 \\
   -p 587:587 -p 993:993 \\
   enwaiax/maddy:latest`,
-    compose: 'maddy/docker-compose.yml',
+    compose: 'images/maddy/docker-compose.yml',
     notes: ['部署前确认 25 端口可用', '生产环境必须配置 TLS、SPF、DKIM 与 DMARC', '数据集中保存在 maddydata volume'],
   },
   {
@@ -70,8 +70,8 @@ export const projects: Project[] = [
     icon: 'D',
     image: 'enwaiax/download-bot',
     upstream: 'https://github.com/gaowanliang/DownloadBot',
-    sourcePath: 'download-bot',
-    guidePath: 'download-bot/README.md',
+    sourcePath: 'images/download-bot',
+    guidePath: 'images/download-bot/README.md',
     architectures: ['AMD64', 'ARM64'],
     tags: ['Telegram', 'aria2', 'Bot'],
     ports: [],
@@ -80,7 +80,7 @@ export const projects: Project[] = [
   -v $PWD/config.json:/root/config.json \\
   --name download-bot \\
   enwaiax/download-bot:latest`,
-    compose: 'download-bot/docker-compose.yml',
+    compose: 'images/download-bot/docker-compose.yml',
     notes: ['启动前需准备 config.json', 'Token 等凭据不要提交到 Git', '可通过 Compose 与 aria2 联合部署'],
   },
   {
@@ -97,8 +97,8 @@ export const projects: Project[] = [
     icon: 'N',
     image: 'enwaiax/netease-cloud-music-tasks',
     upstream: 'https://github.com/chen310/NeteaseCloudMusicTasks',
-    sourcePath: 'netease-cloud-music-tasks',
-    guidePath: 'netease-cloud-music-tasks/README.md',
+    sourcePath: 'images/netease-cloud-music-tasks',
+    guidePath: 'images/netease-cloud-music-tasks/README.md',
     architectures: ['AMD64', 'ARM64'],
     tags: ['Scheduler', 'Multi-account', 'Notifications'],
     ports: [],
@@ -125,8 +125,8 @@ export const projects: Project[] = [
     icon: 'X',
     image: 'enwaiax/x-ui',
     upstream: 'https://github.com/vaxilu/x-ui',
-    sourcePath: 'x-ui',
-    guidePath: 'x-ui/README.md',
+    sourcePath: 'images/x-ui',
+    guidePath: 'images/x-ui/README.md',
     architectures: ['AMD64', 'ARM64', 'ARMv7', 'ARMv6', 'S390X'],
     tags: ['Panel', 'Network', 'Legacy'],
     ports: ['54321'],
@@ -136,7 +136,7 @@ export const projects: Project[] = [
   -v $PWD/cert:/root/cert \\
   --name x-ui --restart=unless-stopped \\
   enwaiax/x-ui:latest`,
-    compose: 'x-ui/docker-compose.yml',
+    compose: 'images/x-ui/docker-compose.yml',
     notes: ['历史入口，项目已迁往独立仓库', '首次登录后立即修改默认凭据', '开放端口前先配置防火墙'],
   },
   {
@@ -153,15 +153,15 @@ export const projects: Project[] = [
     icon: 'F',
     image: 'mozilla/send',
     upstream: 'https://github.com/mozilla/send',
-    sourcePath: 'firefox_send',
-    guidePath: 'firefox_send/docker-compose.yml',
+    sourcePath: 'images/firefox-send',
+    guidePath: 'images/firefox-send/docker-compose.yml',
     architectures: ['AMD64'],
     tags: ['File sharing', 'Legacy', 'Compose'],
     ports: ['1443'],
     volumes: [],
-    quickStart: `cd firefox_send
+    quickStart: `cd firefox-send
 docker compose up -d`,
-    compose: 'firefox_send/docker-compose.yml',
+    compose: 'images/firefox-send/docker-compose.yml',
     notes: ['上游已归档', '仅作为历史方案与迁移参考', '公开部署前必须自行进行安全审计'],
   },
 ];

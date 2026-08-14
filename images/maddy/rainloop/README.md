@@ -19,13 +19,13 @@ chmod -R 777 rainloop
 ### 2. 下载 Docker Compose 文件
 
 ```
-curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/maddy/rainloop/docker-compose.yml
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/images/maddy/rainloop/docker-compose.yml
 ```
 
 ### 3. 下载 nginx 配置文件
 
 ```
-curl -fsSLO https://raw.githubusercontent.com/enwaiax/awesome-docker/main/maddy/rainloop/rainloop.conf
+curl -fsSLO https://raw.githubusercontent.com/enwaiax/awesome-docker/main/images/maddy/rainloop/rainloop.conf
 ```
 
 ### 4. 拉起 docker
