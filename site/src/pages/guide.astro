@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Deployment guide · Awesome Docker" description="Docker 与 Compose 的实用部署检查清单。">
+  <Header />
+  <main class="shell guide">
+    <header><span class="eyebrow">Operator handbook</span><h1>Start clean.<br />Stay recoverable.</h1><p>这里不是 Docker 百科，而是一份在运行本仓库镜像之前值得完成的最小检查清单。</p></header>
+    <div class="guide-grid">
+      <nav><a href="#install">01 · 安装</a><a href="#compose">02 · Compose</a><a href="#storage">03 · 持久化</a><a href="#security">04 · 安全</a><a href="#backup">05 · 备份</a></nav>
+      <article>
+        <section id="install"><span class="index mono">01</span><h2>安装 Docker Engine</h2><p>优先按照 Docker 官方文档为你的发行版安装 Engine。安装完成后确认服务和 Compose 插件可用。</p><pre><code>docker version
+docker compose version
+docker info</code></pre></section>
+        <section id="compose"><span class="index mono">02</span><h2>使用 Compose 启动</h2><p>下载项目目录中的 Compose 文件，在启动前阅读端口、卷和环境变量。现代 Docker 使用带空格的 <code>docker compose</code>。</p><pre><code>docker compose config
+docker compose pull
+docker compose up -d
+docker compose ps</code></pre></section>
+        <section id="storage"><span class="index mono">03</span><h2>让数据离开容器层</h2><p>数据库、配置和用户数据必须使用 bind mount 或 named volume。容器应该可以删除并重新创建。</p><div class="callout"><b>Rule of thumb</b><span>如果删除容器会丢失重要数据，挂载策略还没有完成。</span></div></section>
+        <section id="security"><span class="index mono">04</span><h2>公开服务前先收紧边界</h2><ul><li>修改所有默认密码和 Token</li><li>只暴露实际需要的端口</li><li>为 Web 服务配置 TLS 和反向代理</li><li>不要把包含凭据的配置提交到 Git</li><li>对 archived 项目先进行安全评估</li></ul></section>
+        <section id="backup"><span class="index mono">05</span><h2>先恢复一次，再称之为备份</h2><p>备份 volume 或 bind mount 目录，并记录恢复命令。升级镜像前保留可验证的回滚点。</p><pre><code>docker compose stop
+# backup mounted data
+docker compose pull
+docker compose up -d</code></pre></section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+<style>
+  .guide{padding-top:100px}.guide header{max-width:900px}.guide h1{margin:18px 0 25px;font-size:clamp(62px,9vw,118px);line-height:.86;letter-spacing:-.075em}.guide header>p{max-width:640px;color:var(--muted);font-size:16px}.guide-grid{display:grid;grid-template-columns:210px minmax(0,760px);gap:100px;margin-top:120px}.guide nav{position:sticky;top:30px;height:max-content;display:flex;flex-direction:column;border-top:1px solid var(--line)}.guide nav a{padding:13px 0;border-bottom:1px solid var(--line);color:var(--muted);font:500 10px 'DM Mono'}.guide article section{scroll-margin-top:40px;padding:0 0 95px}.index{color:var(--blue);font-size:10px}.guide h2{margin:11px 0 17px;font-size:clamp(32px,5vw,53px);line-height:1;letter-spacing:-.05em}.guide article p,.guide li{color:var(--muted);font-size:14px}.guide pre{margin-top:23px;padding:23px;overflow:auto;border:1px solid var(--line);border-radius:15px;background:#06101b;color:#9bdcff;font-size:11px;line-height:1.8}.guide ul{padding-left:18px}.guide li{padding:7px}.callout{display:flex;flex-direction:column;gap:5px;margin-top:24px;padding:20px;border-left:2px solid var(--green);background:rgba(85,230,172,.05)}.callout b{font-size:12px}.callout span{color:var(--muted);font-size:12px}@media(max-width:760px){.guide{padding-top:65px}.guide h1{font-size:62px}.guide-grid{grid-template-columns:1fr;gap:60px;margin-top:80px}.guide nav{position:static}.guide article section{padding-bottom:70px}}
+</style>

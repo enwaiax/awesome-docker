@@ -1,6 +1,6 @@
 # maddy
 
-GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker/tree/main/maddy)  
+GitHub [enwaiax/awesome-docker](https://github.com/enwaiax/awesome-docker/tree/main/maddy)
 Docker [enwaiax/maddy](https://hub.docker.com/r/enwaiax/maddy)
 
 > \*docker image support for AMD64 and ARM64
@@ -63,12 +63,12 @@ docker run -d --name maddy \
   enwaiax/maddy:latest
 ```
 
-##### 4.2 使用 docker-compose 创建
+##### 4.2 使用 Docker Compose 创建
 
 ```shell
 mkdir maddy && cd maddy
-wget https://raw.githubusercontent.com/Chasing66/beautiful_docker/main/maddy/docker-compose.yml
-docker-compose up -d
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/maddy/docker-compose.yml
+docker compose -f compose.yaml up -d
 ```
 
 #### 5. 配置 DNS 记录解析

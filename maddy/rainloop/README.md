@@ -16,22 +16,22 @@ unzip rainloop-community-latest.zip -d rainloop
 chmod -R 777 rainloop
 ```
 
-### 2. 下载 docker-compose 文件
+### 2. 下载 Docker Compose 文件
 
 ```
-wget -q https://raw.githubusercontent.com/Chasing66/beautiful_docker/main/maddy/rainloop/docker-compose.yml
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/maddy/rainloop/docker-compose.yml
 ```
 
 ### 3. 下载 nginx 配置文件
 
 ```
-wget -q https://raw.githubusercontent.com/Chasing66/beautiful_docker/main/maddy/rainloop/rainloop.conf
+curl -fsSLO https://raw.githubusercontent.com/enwaiax/awesome-docker/main/maddy/rainloop/rainloop.conf
 ```
 
 ### 4. 拉起 docker
 
 ```
-docker-compose up -d
+docker compose -f compose.yaml up -d
 ```
 
 ### 5. 登录后台初始配置

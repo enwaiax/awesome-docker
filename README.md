@@ -1,11 +1,29 @@
 ## When container, do container
 
-This repo is created to collected some wonderful projects and dockernized them for ARM and AMD platforms.
-You are welcome to fork and contribute to this project.
+> **A curated, multi-architecture Docker collection with practical deployment guides.**
 
-本仓库主要用于收集`github`上的优秀项目，并将其 docker 化，用于支持在 ARM 及 AMD 平台部署，欢迎推荐。
+🌐 **Website (coming with the Pages launch):** `https://enwaiax.github.io/awesome-docker/`
 
-### Docker usage lazy notes
+This repository collects useful open-source projects, packages them for multiple CPU architectures, and documents the operational details needed to run them responsibly.
+
+本仓库收集值得自托管的开源项目，为 AMD64、ARM64 等架构提供容器化方案，并持续整理部署、持久化、升级与安全说明。
+
+### Container catalog
+
+| Project | Purpose | Architectures | Status |
+| --- | --- | --- | --- |
+| [Maddy](maddy/) | All-in-one mail server | AMD64 / ARM64 | Maintained |
+| [Download Bot](download-bot/) | Telegram-driven downloads | AMD64 / ARM64 | Community |
+| [Netease Music Tasks](netease-cloud-music-tasks/) | Scheduled automation | AMD64 / ARM64 | Community |
+| [X-UI](x-ui/) | Network management panel | Multi-arch | Moved / legacy |
+| [Firefox Send](firefox_send/) | Self-hosted file sharing | AMD64 | Archived upstream |
+
+The new Astro website provides searchable project cards, consistent quick-start instructions, lifecycle labels, architecture information, and dedicated project pages. Source is under [`site/`](site/).
+
+- [Contributing guide](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+
+### Docker usage notes
 
 #### 1. 安装脚本
 
@@ -102,4 +120,4 @@ docker info | grep "Docker Root Dir"
 
 ### Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/Chasing66/beautiful_docker.svg)](https://starchart.cc/Chasing66/beautiful_docker)
+[![Stargazers over time](https://starchart.cc/enwaiax/awesome-docker.svg)](https://starchart.cc/enwaiax/awesome-docker)

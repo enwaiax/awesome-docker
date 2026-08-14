@@ -1,6 +1,6 @@
 # `netease-cloud-music-tasks`
 
-GitHub [Chasing66/beautiful_docker](https://github.com/Chasing66/beautiful_docker/tree/main/netease-cloud-music-tasks)  
+GitHub [enwaiax/awesome-docker](https://github.com/enwaiax/awesome-docker/tree/main/netease-cloud-music-tasks)
 Docker [enwaiax/netease-cloud-music-tasks](https://hub.docker.com/r/enwaiax/netease-cloud-music-tasks)
 
 >docker image support for AMD64 and ARM64

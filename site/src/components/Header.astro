@@ -1,0 +1,36 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<header class="nav shell">
+  <a class="brand" href={`${base}/`} aria-label="Awesome Docker home">
+    <span class="brand-mark" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><b></b>
+    </span>
+    <span><strong>awesome</strong><em>/docker</em></span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href={`${base}/#projects`}>项目</a>
+    <a href={`${base}/guide`}>指南</a>
+    <a href="https://github.com/enwaiax/awesome-docker">GitHub</a>
+  </nav>
+  <button class="theme" data-theme-toggle aria-label="切换主题">
+    <span>◐</span>
+  </button>
+</header>
+
+<style>
+  .nav { height: 86px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 20; }
+  .brand { display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: -.02em; }
+  .brand strong { font-weight: 800; }
+  .brand em { color: var(--muted); font-style: normal; }
+  .brand-mark { position: relative; width: 31px; height: 26px; display: grid; grid-template-columns: repeat(4, 6px); grid-template-rows: repeat(2, 6px); gap: 2px; align-content: center; }
+  .brand-mark i { display: block; border-radius: 1.5px; background: var(--blue); box-shadow: 0 0 12px rgba(53,185,255,.28); }
+  .brand-mark i:nth-child(1) { grid-column: 2; }
+  .brand-mark b { position: absolute; left: 0; bottom: 1px; width: 31px; height: 10px; border-radius: 2px 2px 9px 9px; background: var(--blue); clip-path: polygon(0 0, 82% 0, 88% 24%, 100% 24%, 90% 75%, 73% 100%, 10% 100%); }
+  nav { display: flex; align-items: center; gap: 30px; margin-left: auto; margin-right: 24px; }
+  nav a { color: var(--muted); font-size: 13px; font-weight: 700; transition: .2s; }
+  nav a:hover { color: var(--text); }
+  .theme { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); cursor: pointer; }
+  .theme span { font-size: 17px; transform: rotate(-30deg); }
+  @media (max-width: 640px) { nav { display: none; } .nav { height: 70px; } }
+</style>

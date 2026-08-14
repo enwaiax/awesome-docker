@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/enwaiax/awesome-docker/security/advisories/new
+    about: Report exploitable vulnerabilities privately when private reporting is enabled.

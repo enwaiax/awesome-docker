@@ -1,0 +1,46 @@
+name: Project proposal
+
+description: Suggest a useful project for multi-architecture containerization
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping the collection grow responsibly. Please describe the upstream, deployment needs, and maintenance expectations.
+  - type: input
+    id: upstream
+    attributes:
+      label: Upstream repository
+      placeholder: https://github.com/owner/project
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: What problem does this project solve, and who would deploy it?
+    validations:
+      required: true
+  - type: checkboxes
+    id: architectures
+    attributes:
+      label: Target architectures
+      options:
+        - label: AMD64
+        - label: ARM64
+        - label: ARMv7 / ARMv6
+        - label: Other
+  - type: textarea
+    id: runtime
+    attributes:
+      label: Runtime requirements
+      description: List ports, volumes, required environment variables, privileged mode, or host networking.
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security and maintenance notes
+      description: Is upstream active? Are there default credentials or known deployment risks?
+    validations:
+      required: true

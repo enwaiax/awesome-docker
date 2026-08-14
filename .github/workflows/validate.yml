@@ -1,0 +1,68 @@
+name: Validate website and docs
+
+on:
+  pull_request:
+    paths:
+      - 'site/**'
+      - '**/*.md'
+      - '.github/workflows/validate.yml'
+      - '.github/ISSUE_TEMPLATE/**'
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '**/*.md'
+      - '.github/workflows/validate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check and build
+        run: npm run build
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+  markdown-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check repository-owned Markdown links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --accept '200..=299,403,429'
+            --exclude 'localhost|127\.0\.0\.1|服务器IP|ip/|xn--ip|starchart\.cc/.+\.svg'
+            README.md
+            CONTRIBUTING.md
+            SECURITY.md
+            download-bot/README.md
+            maddy/README.md
+            maddy/rainloop/README.md
+            netease-cloud-music-tasks/README.md
+            x-ui/README.md
+            x-ui/docs/README_en.md
+          fail: true
