@@ -22,6 +22,7 @@ The new Astro website provides searchable project cards, consistent quick-start 
 
 - [Contributing guide](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
+- [Image publishing workflow](docs/image-publishing.md)
 
 ### Docker usage notes
 

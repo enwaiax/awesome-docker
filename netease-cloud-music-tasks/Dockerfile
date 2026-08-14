@@ -1,4 +1,4 @@
-FROM python:alpine as builder
+FROM python:alpine AS builder
 
 RUN apk update && apk add --no-cache tzdata alpine-sdk libffi-dev
 ADD ./NeteaseCloudMusicTasks/requirements.txt /tmp/requirements.txt

@@ -1,52 +1,106 @@
-name: "docker build release"
+name: Docker image supply chain
 
-on: 
+on:
+  pull_request:
+    paths:
+      - 'maddy/**'
+      - 'download-bot/**'
+      - 'netease-cloud-music-tasks/**'
+      - 'x-ui/**'
+      - '.github/workflows/builder.yaml'
+      - '.github/workflows/image-build.yml'
   workflow_dispatch:
     inputs:
       project:
-        description: 'Project'
+        description: Image to build
+        type: choice
         required: true
-        default: 
+        options:
+          - maddy
+          - download-bot
+          - netease-cloud-music-tasks
+      publish:
+        description: Push the multi-architecture image to Docker Hub
+        type: boolean
+        required: true
+        default: false
+      tag:
+        description: Additional Docker tag (letters, numbers, dot, dash and underscore only)
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: images-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  changes:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      any: ${{ steps.matrix.outputs.any }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with:
-          submodules: true
+          fetch-depth: 0
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Docker Hub login
+      - name: Select affected images
+        id: matrix
         env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          echo "${DOCKERHUB_TOKEN}" | docker login --username ${DOCKERHUB_USERNAME} --password-stdin
+          set -euo pipefail
+          mapfile -t files < <(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
+          projects=()
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          buildx-version: latest
+          workflow_changed=false
+          for file in "${files[@]}"; do
+            if [[ "$file" == ".github/workflows/builder.yaml" || "$file" == ".github/workflows/image-build.yml" ]]; then
+              workflow_changed=true
+            fi
+          done
 
-      - name: Build Dockerfile
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: |
-          docker buildx build \
-          --platform=linux/amd64,linux/arm64 \
-          --output "type=image,push=true" \
-          --file ${{ github.event.inputs.project }}/Dockerfile ./${{ github.event.inputs.project }} \
-          --tag $(echo "${DOCKERHUB_USERNAME}" | tr '[:upper:]' '[:lower:]')/${{ github.event.inputs.project }}:latest
+          for project in maddy download-bot netease-cloud-music-tasks; do
+            if [[ "$workflow_changed" == true ]] || printf '%s\n' "${files[@]}" | grep -q "^${project}/"; then
+              projects+=("$project")
+            fi
+          done
 
-      - name: Sync README.md
-        uses: ms-jpq/sync-dockerhub-readme@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.inputs.project }}
-          readme: "${{ github.event.inputs.project }}/README.md"
+          matrix=$(printf '%s\n' "${projects[@]}" | jq -R . | jq -sc '{project: map(select(length > 0))}')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          if (( ${#projects[@]} > 0 )); then
+            echo "any=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "any=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  validate:
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.any == 'true'
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.changes.outputs.matrix) }}
+    uses: ./.github/workflows/image-build.yml
+    with:
+      project: ${{ matrix.project }}
+      platforms: linux/amd64
+      publish: false
+
+  publish:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.repository == 'enwaiax/awesome-docker'
+    uses: ./.github/workflows/image-build.yml
+    permissions:
+      contents: read
+    with:
+      project: ${{ inputs.project }}
+      platforms: linux/amd64,linux/arm64
+      publish: ${{ inputs.publish }}
+      tag: ${{ inputs.tag }}
+    secrets: inherit
