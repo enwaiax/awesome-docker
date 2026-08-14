@@ -101,7 +101,7 @@ jobs:
           args: >-
             --no-progress
             --accept '200..=299,403,429'
-            --exclude 'localhost|127\.0\.0\.1|服务器IP|ip/|xn--ip|starchart\.cc/.+\.svg'
+            --exclude 'localhost|127\.0\.0\.1|服务器IP|ip/|xn--ip|starchart\.cc/.+\.svg|github\.com/enwaiax/awesome-docker/tree/main/images/'
             README.md
             CONTRIBUTING.md
             SECURITY.md
