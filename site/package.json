@@ -1,0 +1,19 @@
+{
+  "name": "awesome-docker-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.5.1",
+    "astro": "^7.2.2",
+    "sharp": "^0.35.3",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {}
+}

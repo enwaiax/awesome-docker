@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { projects, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const commandId = `command-${project.slug}`;
+---
+<BaseLayout title={`${project.name} · Awesome Docker`} description={project.description}>
+  <Header />
+  <main>
+    <section class="project-hero shell" style={`--accent:${project.accent};--glow:${project.glow}`}>
+      <a class="back mono" href={`${base}/#projects`}>← container catalog</a>
+      <div class="hero-main">
+        <div class="identity"><span class="icon">{project.icon}</span><span class:list={['status', project.status]}><i></i>{project.statusLabel}</span></div>
+        <span class="eyebrow">{project.eyebrow}</span>
+        <h1>{project.name}</h1>
+        <p>{project.description}</p>
+        <div class="chips">{project.architectures.map((arch) => <span class="chip">{arch}</span>)}{project.tags.map((tag) => <span class="chip tag">{tag}</span>)}</div>
+      </div>
+      <aside class="metadata">
+        <div><span>IMAGE</span><strong class="mono">{project.image}</strong></div>
+        <div><span>CATEGORY</span><strong>{project.category}</strong></div>
+        <div><span>SOURCE</span><a href={project.upstream}>Upstream ↗</a></div>
+        <div><span>REPOSITORY</span><a href={`https://github.com/enwaiax/awesome-docker/tree/main/${project.sourcePath}`}>Browse files ↗</a></div>
+      </aside>
+      <div class="glow" aria-hidden="true"></div>
+    </section>
+
+    <section class="content shell">
+      <article class="main-column">
+        <span class="eyebrow">Quick start</span>
+        <div class="terminal-block">
+          <div class="terminal-top"><span></span><span></span><span></span><em class="mono">shell</em><button data-copy={`#${commandId}`}>Copy</button></div>
+          <pre id={commandId}><code>{project.quickStart}</code></pre>
+        </div>
+        <div class="notice" class:list={{ warning: project.status === 'archived' }}>
+          <b>{project.status === 'archived' ? 'Lifecycle notice' : 'Before you deploy'}</b>
+          <p>{project.notes[0]}</p>
+        </div>
+
+        <div class="section-title"><span class="eyebrow">Runtime map</span><h2>What this container expects.</h2></div>
+        <div class="runtime-grid">
+          <article><span>01</span><h3>Ports</h3>{project.ports.length ? <ul>{project.ports.map((port) => <li class="mono">{port}</li>)}</ul> : <p>没有必须暴露的端口。</p>}</article>
+          <article><span>02</span><h3>Volumes</h3>{project.volumes.length ? <ul>{project.volumes.map((volume) => <li class="mono">{volume}</li>)}</ul> : <p>当前配置未声明持久化卷。</p>}</article>
+          <article><span>03</span><h3>Compose</h3>{project.compose ? <a href={`https://github.com/enwaiax/awesome-docker/blob/main/${project.compose}`}>View compose file ↗</a> : <p>暂未提供 Compose 文件。</p>}</article>
+        </div>
+
+        <div class="section-title"><span class="eyebrow">Operator notes</span><h2>Run it with context.</h2></div>
+        <ol class="notes">{project.notes.map((note) => <li><span>✓</span><p>{note}</p></li>)}</ol>
+      </article>
+      <aside class="side-column">
+        <div class="side-card"><span class="eyebrow">Deploy signal</span><div class="signal"><i></i><strong>{project.statusLabel}</strong></div><p>{project.status === 'maintained' ? '适合继续验证和维护。' : project.status === 'community' ? '由社区驱动，部署前检查上游状态。' : '保留作迁移和历史参考。'}</p></div>
+        <div class="side-card"><span class="eyebrow">Need the details?</span><h3>Read the original guide.</h3><p>项目目录中的文档保留完整配置、备份与迁移步骤。</p><a class="btn" href={`https://github.com/enwaiax/awesome-docker/blob/main/${project.guidePath}`}>Open guide ↗</a></div>
+      </aside>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const target = document.querySelector<HTMLElement>(button.dataset.copy ?? '');
+      if (!target) return;
+      await navigator.clipboard.writeText(target.innerText);
+      const previous = button.textContent;
+      button.textContent = 'Copied';
+      setTimeout(() => { button.textContent = previous; }, 1400);
+    });
+  });
+</script>
+
+<style>
+  .project-hero{position:relative;min-height:570px;padding:65px 0 80px;display:grid;grid-template-columns:1fr 310px;gap:70px;align-items:end}.back{position:absolute;top:25px;color:var(--subtle);font-size:10px;letter-spacing:.08em}.identity{display:flex;align-items:center;gap:14px;margin-bottom:43px}.icon{display:grid;place-items:center;width:66px;height:66px;border-radius:20px;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-size:27px;font-weight:800;box-shadow:0 0 55px var(--glow)}.status{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font:500 9px 'DM Mono';letter-spacing:.12em;text-transform:uppercase}.status i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}h1{margin:12px 0 22px;font-size:clamp(59px,9vw,112px);line-height:.87;letter-spacing:-.075em}.hero-main>p{max-width:710px;margin:0;color:var(--muted);font-size:17px}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:28px}.chip.tag{border-style:dashed}.metadata{border-top:1px solid var(--line)}.metadata div{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:63px;border-bottom:1px solid var(--line)}.metadata span{color:var(--subtle);font:500 8px 'DM Mono';letter-spacing:.12em}.metadata strong,.metadata a{font-size:11px;text-align:right}.metadata a{color:var(--blue-soft)}.glow{position:absolute;z-index:-1;width:520px;height:340px;left:25%;top:70px;background:var(--glow);filter:blur(100px);opacity:.45}
+  .content{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:70px;padding-top:70px}.terminal-block{margin-top:17px;overflow:hidden;border:1px solid var(--line);border-radius:17px;background:#06101b;box-shadow:var(--shadow)}.terminal-top{height:43px;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.06)}.terminal-top>span{width:7px;height:7px;border-radius:50%;background:#355065}.terminal-top>span:first-child{background:#fa6d70}.terminal-top>span:nth-child(2){background:#f6bd4c}.terminal-top>span:nth-child(3){background:#56d58b}.terminal-top em{margin-left:8px;color:#5d7486;font-size:9px;font-style:normal}.terminal-top button{margin-left:auto;border:1px solid rgba(255,255,255,.08);border-radius:7px;background:rgba(255,255,255,.04);color:#8ea5b7;padding:5px 9px;font:500 9px 'DM Mono';cursor:pointer}pre{margin:0;padding:28px;overflow:auto;color:#a5dfff;font-size:11px;line-height:1.8}.notice{margin-top:18px;padding:17px 20px;border:1px solid rgba(85,230,172,.18);border-radius:13px;background:rgba(85,230,172,.05)}.notice.warning{border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.05)}.notice b{font-size:12px}.notice p{margin:3px 0 0;color:var(--muted);font-size:12px}.section-title{margin-top:95px}.section-title h2{margin:10px 0 25px;font-size:clamp(37px,5vw,57px);line-height:1;letter-spacing:-.055em}.runtime-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.runtime-grid article{min-height:230px;padding:20px;border:1px solid var(--line);border-radius:17px;background:var(--panel)}.runtime-grid article>span{color:var(--blue);font:500 9px 'DM Mono'}.runtime-grid h3{margin:35px 0 12px;font-size:17px}.runtime-grid p,.runtime-grid a{color:var(--muted);font-size:11px}.runtime-grid a{color:var(--blue-soft)}ul{list-style:none;padding:0;margin:0}li.mono{color:var(--muted);font-size:9px;margin:7px 0;overflow-wrap:anywhere}.notes{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}.notes li{display:flex;align-items:flex-start;gap:15px;padding:19px 0;border-bottom:1px solid var(--line)}.notes li span{display:grid;place-items:center;flex:0 0 21px;height:21px;border-radius:50%;background:rgba(85,230,172,.09);color:var(--green);font-size:9px}.notes p{margin:0;color:var(--muted);font-size:13px}
+  .side-column{padding-top:4px}.side-card{padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);margin-bottom:12px}.signal{display:flex;align-items:center;gap:9px;margin-top:27px}.signal i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}.signal strong{font-size:18px}.side-card p{color:var(--muted);font-size:11px}.side-card h3{margin:28px 0 7px;font-size:23px;line-height:1.1;letter-spacing:-.04em}.side-card .btn{width:100%;margin-top:13px;font-size:11px}
+  @media(max-width:900px){.project-hero{grid-template-columns:1fr;gap:45px}.metadata{max-width:none}.content{grid-template-columns:1fr}.side-column{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.runtime-grid{grid-template-columns:1fr}}
+  @media(max-width:600px){.project-hero{padding-top:90px;min-height:auto}h1{font-size:60px}.hero-main>p{font-size:14px}.content{padding-top:35px;gap:50px}.side-column{grid-template-columns:1fr}.section-title{margin-top:70px}pre{padding:20px;font-size:9px}}
+</style>

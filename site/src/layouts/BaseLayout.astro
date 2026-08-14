@@ -1,0 +1,155 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Awesome Docker — deploy beautifully',
+  description = 'Curated multi-architecture Docker images with practical deployment guides.',
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonical = new URL(`${base}${Astro.url.pathname.replace(base, '')}`, Astro.site);
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07111f" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+    <script is:inline>
+      const savedTheme = localStorage.getItem('awesome-docker-theme');
+      if (savedTheme === 'light') document.documentElement.dataset.theme = 'light';
+    </script>
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <slot />
+    <script is:inline>
+      const button = document.querySelector('[data-theme-toggle]');
+      button?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('awesome-docker-theme', next);
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    color-scheme: dark;
+    --bg: #06101d;
+    --bg-soft: #0a1727;
+    --panel: rgba(11, 28, 46, 0.72);
+    --panel-solid: #0c1c2e;
+    --text: #eff9ff;
+    --muted: #91a8bb;
+    --subtle: #526a80;
+    --line: rgba(145, 200, 230, 0.14);
+    --blue: #35b9ff;
+    --blue-soft: #78d4ff;
+    --green: #55e6ac;
+    --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+    --radius: 24px;
+  }
+
+  :root[data-theme='light'] {
+    color-scheme: light;
+    --bg: #eef8fd;
+    --bg-soft: #e1f1f8;
+    --panel: rgba(255, 255, 255, 0.78);
+    --panel-solid: #ffffff;
+    --text: #072035;
+    --muted: #536f82;
+    --subtle: #7890a0;
+    --line: rgba(17, 74, 110, 0.13);
+    --shadow: 0 24px 70px rgba(35, 93, 123, 0.13);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: var(--bg); }
+  body {
+    margin: 0;
+    min-width: 320px;
+    background:
+      radial-gradient(circle at 75% 0%, rgba(25, 140, 255, .14), transparent 30rem),
+      radial-gradient(circle at 5% 30%, rgba(37, 224, 188, .07), transparent 24rem),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', system-ui, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; }
+  button { color: inherit; }
+  code, pre, .mono { font-family: 'DM Mono', ui-monospace, monospace; }
+  ::selection { background: rgba(53,185,255,.34); }
+  .noise {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: .025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+  }
+  .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--blue-soft);
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .eyebrow::before { content: ''; width: 22px; height: 1px; background: currentColor; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    backdrop-filter: blur(18px);
+    font-size: 14px;
+    font-weight: 700;
+    transition: .25s ease;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translateY(-2px); border-color: rgba(83, 195, 255, .5); }
+  .btn-primary { background: linear-gradient(135deg, #47c7ff, #1679f2); border: 0; color: #fff; box-shadow: 0 12px 34px rgba(22, 121, 242, .3); }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 26px;
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255,255,255,.025);
+  }
+  @media (max-width: 640px) {
+    .shell { width: min(100% - 24px, 1180px); }
+  }
+</style>

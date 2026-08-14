@@ -1,0 +1,27 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="shell footer-inner">
+    <div>
+      <strong>awesome/docker</strong>
+      <p>Curated containers. Practical guides. Built for more than one architecture.</p>
+    </div>
+    <div class="links">
+      <a href={`${base}/#projects`}>Projects</a>
+      <a href={`${base}/guide`}>Guide</a>
+      <a href="https://github.com/enwaiax/awesome-docker">Source</a>
+    </div>
+    <span class="mono">MIT · {year}</span>
+  </div>
+</footer>
+<style>
+  footer { margin-top: 120px; border-top: 1px solid var(--line); }
+  .footer-inner { min-height: 190px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; position: relative; }
+  strong { font-size: 18px; letter-spacing: -.03em; }
+  p { color: var(--muted); margin: 6px 0 0; font-size: 13px; }
+  .links { display: flex; gap: 24px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .mono { position: absolute; right: 0; bottom: 18px; color: var(--subtle); font-size: 10px; }
+  @media(max-width:640px){ .footer-inner{grid-template-columns:1fr; padding:45px 0 60px}.links{flex-wrap:wrap}.mono{left:0;right:auto} }
+</style>
