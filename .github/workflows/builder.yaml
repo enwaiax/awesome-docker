@@ -67,7 +67,7 @@ jobs:
             fi
           done
 
-          for project in maddy download-bot netease-cloud-music-tasks x-ui; do
+          for project in maddy download-bot netease-cloud-music-tasks; do
             if [[ "$workflow_changed" == true ]] || printf '%s\n' "${files[@]}" | grep -q "^${project}/"; then
               projects+=("$project")
             fi

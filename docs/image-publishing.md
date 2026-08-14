@@ -4,7 +4,7 @@ Docker images are validated on pull requests and published only by an explicit m
 
 ## Pull-request validation
 
-Changes under `maddy/`, `download-bot/`, `netease-cloud-music-tasks/`, or `x-ui/` trigger an AMD64 Buildx build without registry credentials and without pushing an image. A change to the supply-chain workflow validates all four projects.
+Changes under `maddy/`, `download-bot/`, or `netease-cloud-music-tasks/` trigger an AMD64 Buildx build without registry credentials and without pushing an image. A change to the supply-chain workflow validates all three publishable projects. `x-ui` still receives static Dockerfile and Compose checks, but image builds are intentionally excluded until its source inputs are reproducible.
 
 The repository validation workflow also runs Hadolint and parses available Compose files.
 
