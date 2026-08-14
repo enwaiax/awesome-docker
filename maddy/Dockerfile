@@ -6,7 +6,7 @@ RUN set -ex ;\
 
 WORKDIR /maddy
 ADD ./maddy ./
-ENV LDFLAGS -static
+ENV LDFLAGS=-static
 RUN go mod download
 RUN mkdir -p /pkg/data
 COPY ./maddy/maddy.conf /pkg/data/maddy.conf
