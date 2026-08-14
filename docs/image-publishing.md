@@ -10,7 +10,7 @@ The repository validation workflow also runs Hadolint and parses available Compo
 
 ## Manual dry run
 
-Open **Actions → Docker image supply chain → Run workflow** and select:
+Open **Actions → Docker image supply chain → Run workflow** on the `main` branch and select:
 
 - a project from the controlled list;
 - `publish: false`;
@@ -20,7 +20,7 @@ The workflow builds AMD64 and ARM64 with QEMU but does not log in or push.
 
 ## Publishing
 
-Publishing requires repository secrets `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
+Publishing requires repository secrets `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`. `x-ui` is intentionally excluded from manual publishing because its current Dockerfile clones a floating upstream revision instead of building the repository-pinned source.
 
 Run the same workflow with `publish: true`. It publishes:
 

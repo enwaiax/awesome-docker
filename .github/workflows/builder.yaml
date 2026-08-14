@@ -19,7 +19,6 @@ on:
           - maddy
           - download-bot
           - netease-cloud-music-tasks
-          - x-ui
       publish:
         description: Push the multi-architecture image to Docker Hub
         type: boolean
@@ -95,7 +94,7 @@ jobs:
       publish: false
 
   publish:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.repository == 'enwaiax/awesome-docker'
     uses: ./.github/workflows/image-build.yml
     permissions:
       contents: read

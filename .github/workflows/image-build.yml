@@ -44,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$PROJECT" in
-            maddy|download-bot|netease-cloud-music-tasks|x-ui) ;;
+            maddy|download-bot|netease-cloud-music-tasks) ;;
             *) echo "Unsupported project: $PROJECT" >&2; exit 1 ;;
           esac
           if [[ "$PLATFORMS" != "linux/amd64" && "$PLATFORMS" != "linux/amd64,linux/arm64" ]]; then
