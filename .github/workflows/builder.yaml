@@ -3,10 +3,10 @@ name: Docker image supply chain
 on:
   pull_request:
     paths:
-      - 'maddy/**'
-      - 'download-bot/**'
-      - 'netease-cloud-music-tasks/**'
-      - 'x-ui/**'
+      - 'images/maddy/**'
+      - 'images/download-bot/**'
+      - 'images/netease-cloud-music-tasks/**'
+      - 'images/x-ui/**'
       - '.github/workflows/builder.yaml'
       - '.github/workflows/image-build.yml'
   workflow_dispatch:
@@ -68,7 +68,7 @@ jobs:
           done
 
           for project in maddy download-bot netease-cloud-music-tasks; do
-            if [[ "$workflow_changed" == true ]] || printf '%s\n' "${files[@]}" | grep -q "^${project}/"; then
+            if [[ "$workflow_changed" == true ]] || printf '%s\n' "${files[@]}" | grep -q "^images/${project}/"; then
               projects+=("$project")
             fi
           done

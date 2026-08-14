@@ -9,10 +9,10 @@ on:
       - '.github/workflows/builder.yaml'
       - '.github/workflows/image-build.yml'
       - '.github/ISSUE_TEMPLATE/**'
-      - 'maddy/**'
-      - 'download-bot/**'
-      - 'netease-cloud-music-tasks/**'
-      - 'x-ui/**'
+      - 'images/maddy/**'
+      - 'images/download-bot/**'
+      - 'images/netease-cloud-music-tasks/**'
+      - 'images/x-ui/**'
   push:
     branches: [main]
     paths:
@@ -21,10 +21,10 @@ on:
       - '.github/workflows/validate.yml'
       - '.github/workflows/builder.yaml'
       - '.github/workflows/image-build.yml'
-      - 'maddy/**'
-      - 'download-bot/**'
-      - 'netease-cloud-music-tasks/**'
-      - 'x-ui/**'
+      - 'images/maddy/**'
+      - 'images/download-bot/**'
+      - 'images/netease-cloud-music-tasks/**'
+      - 'images/x-ui/**'
 
 permissions:
   contents: read
@@ -45,13 +45,24 @@ jobs:
       - name: Validate Dockerfile
         uses: hadolint/hadolint-action@v3.4.0
         with:
-          dockerfile: ${{ matrix.project }}/Dockerfile
+          dockerfile: images/${{ matrix.project }}/Dockerfile
           failure-threshold: error
           ignore: DL3020
 
+      - name: Build AMD64 image from new location
+        env:
+          PROJECT: ${{ matrix.project }}
+        run: |
+          set -euo pipefail
+          image="awesome-docker-ci/${PROJECT}"
+          docker buildx build --load --tag "$image:ci" "images/${PROJECT}"
+          docker image inspect "$image:ci" --format '{{.Os}}/{{.Architecture}}' > image.txt
+          cat image.txt
+          grep -q '^linux/amd64$' image.txt
+
       - name: Validate Compose file
-        if: hashFiles(format('{0}/docker-compose.yml', matrix.project)) != ''
-        run: docker compose -f "${{ matrix.project }}/docker-compose.yml" config -q
+        if: hashFiles(format('images/{0}/docker-compose.yml', matrix.project)) != ''
+        run: docker compose -f "images/${{ matrix.project }}/docker-compose.yml" config -q
 
   website:
     runs-on: ubuntu-latest
@@ -90,15 +101,15 @@ jobs:
           args: >-
             --no-progress
             --accept '200..=299,403,429'
-            --exclude 'localhost|127\.0\.0\.1|服务器IP|ip/|xn--ip|starchart\.cc/.+\.svg'
+            --exclude 'localhost|127\.0\.0\.1|服务器IP|ip/|xn--ip|starchart\.cc/.+\.svg|github\.com/enwaiax/awesome-docker/tree/main/images/'
             README.md
             CONTRIBUTING.md
             SECURITY.md
             docs/image-publishing.md
-            download-bot/README.md
-            maddy/README.md
-            maddy/rainloop/README.md
-            netease-cloud-music-tasks/README.md
-            x-ui/README.md
-            x-ui/docs/README_en.md
+            images/download-bot/README.md
+            images/maddy/README.md
+            images/maddy/rainloop/README.md
+            images/netease-cloud-music-tasks/README.md
+            images/x-ui/README.md
+            images/x-ui/docs/README_en.md
           fail: true

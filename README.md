@@ -12,17 +12,24 @@ This repository collects useful open-source projects, packages them for multiple
 
 | Project | Purpose | Architectures | Status |
 | --- | --- | --- | --- |
-| [Maddy](maddy/) | All-in-one mail server | AMD64 / ARM64 | Maintained |
-| [Download Bot](download-bot/) | Telegram-driven downloads | AMD64 / ARM64 | Community |
-| [Netease Music Tasks](netease-cloud-music-tasks/) | Scheduled automation | AMD64 / ARM64 | Community |
-| [X-UI](x-ui/) | Network management panel | Multi-arch | Moved / legacy |
-| [Firefox Send](firefox_send/) | Self-hosted file sharing | AMD64 | Archived upstream |
+| [Maddy](images/maddy/) | All-in-one mail server | AMD64 / ARM64 | Maintained |
+| [Download Bot](images/download-bot/) | Telegram-driven downloads | AMD64 / ARM64 | Community |
+| [Netease Music Tasks](images/netease-cloud-music-tasks/) | Scheduled automation | AMD64 / ARM64 | Community |
+| [X-UI](images/x-ui/) | Network management panel | Multi-arch | Moved / legacy |
+| [Firefox Send](images/firefox-send/) | Self-hosted file sharing | AMD64 | Archived upstream |
 
 The new Astro website provides searchable project cards, consistent quick-start instructions, lifecycle labels, architecture information, and dedicated project pages. Source is under [`site/`](site/).
 
 - [Contributing guide](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
 - [Image publishing workflow](docs/image-publishing.md)
+
+## Repository layout
+
+- `images/` — Docker image definitions and deployment examples
+- `site/` — Astro website and project catalog
+- `docs/` — operational policies and workflows
+- `.github/` — CI/CD and issue templates
 
 ### Docker usage notes
 

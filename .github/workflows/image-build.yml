@@ -111,8 +111,8 @@ jobs:
         id: build
         uses: docker/build-push-action@v7
         with:
-          context: ${{ inputs.project }}
-          file: ${{ inputs.project }}/Dockerfile
+          context: images/${{ inputs.project }}
+          file: images/${{ inputs.project }}/Dockerfile
           platforms: ${{ inputs.platforms }}
           push: ${{ inputs.publish }}
           tags: ${{ steps.meta.outputs.tags }}
@@ -138,5 +138,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ steps.meta.outputs.image }}
-          readme-filepath: ${{ inputs.project }}/README.md
+          readme-filepath: images/${{ inputs.project }}/README.md
           enable-url-completion: true

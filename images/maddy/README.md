@@ -1,6 +1,6 @@
 # maddy
 
-GitHub [enwaiax/awesome-docker](https://github.com/enwaiax/awesome-docker/tree/main/maddy)
+GitHub [enwaiax/awesome-docker](https://github.com/enwaiax/awesome-docker/tree/main/images/maddy)
 Docker [enwaiax/maddy](https://hub.docker.com/r/enwaiax/maddy)
 
 > \*docker image support for AMD64 and ARM64
@@ -67,7 +67,7 @@ docker run -d --name maddy \
 
 ```shell
 mkdir maddy && cd maddy
-curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/maddy/docker-compose.yml
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/images/maddy/docker-compose.yml
 docker compose -f compose.yaml up -d
 ```
 

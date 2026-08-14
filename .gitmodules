@@ -1,17 +1,17 @@
-[submodule "firefox_send/send"]
-	path = firefox_send/send
+[submodule "images/firefox-send/send"]
+	path = images/firefox-send/send
 	url = https://github.com/mozilla/send.git
-[submodule "x-ui/x-ui"]
-	path = x-ui/x-ui
+[submodule "images/x-ui/x-ui"]
+	path = images/x-ui/x-ui
 	url = https://github.com/vaxilu/x-ui
-[submodule "netease-cloud-music-tasks/NeteaseCloudMusicTasks"]
-	path = netease-cloud-music-tasks/NeteaseCloudMusicTasks
+[submodule "images/netease-cloud-music-tasks/NeteaseCloudMusicTasks"]
+	path = images/netease-cloud-music-tasks/NeteaseCloudMusicTasks
 	url = https://github.com/chen310/NeteaseCloudMusicTasks.git
 	branch = main
-[submodule "download-bot/DownloadBot"]
-	path = download-bot/DownloadBot
+[submodule "images/download-bot/DownloadBot"]
+	path = images/download-bot/DownloadBot
 	url = https://github.com/gaowanliang/DownloadBot.git
-[submodule "maddy/maddy"]
-	path = maddy/maddy
+[submodule "images/maddy/maddy"]
+	path = images/maddy/maddy
 	url = https://github.com/foxcpp/maddy.git
 	branch = master
