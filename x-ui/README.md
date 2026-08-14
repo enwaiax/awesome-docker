@@ -1,6 +1,6 @@
 # x-ui
 
-GitHub [Chasing66/x-ui](https://github.com/Chasing66/x-ui)
+GitHub [enwaiax/x-ui](https://github.com/enwaiax/x-ui)
 Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 
 此项目已独立为一个全新的项目，支持更多架构，支持两种版本的镜像
@@ -10,7 +10,7 @@ Docker [enwaiax/x-ui](https://hub.docker.com/r/enwaiax/x-ui)
 | [vaxilu/x-ui](https://github.com/vaxilu/x-ui)             | latest | ✅    | ✅    | ✅    | ✅    | ✅    |
 | [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-ui) | alpha  | ✅    | ✅    | ❌    | ❌    | ✅    |
 
-Go to [Chasing66/x-ui](https://github.com/Chasing66/x-ui) to check the latest update
+Go to [enwaiax/x-ui](https://github.com/enwaiax/x-ui) to check the latest update
 
 [English Version](docs/README_en.md)
 
@@ -29,13 +29,13 @@ docker run -itd --network=host -v $PWD/db/:/etc/x-ui/ -v $PWD/cert/:/root/cert/ 
 
 ```shell
 mkdir x-ui && cd x-ui
-wget https://raw.githubusercontent.com/Chasing66/beautiful_docker/main/x-ui/docker-compose.yml
-docker-compose up -d
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/x-ui/docker-compose.yml
+docker compose -f compose.yaml up -d
 ```
 
 ### 备份
 
-数据已经 mount 到 x-ui 路径下的 db 目录下了，直接打包整个 x-ui 文件夹再次`docker-compose up -d`即可起来
+数据已经 mount 到 x-ui 路径下的 db 目录。备份整个 x-ui 文件夹后，可通过 `docker compose -f compose.yaml up -d` 恢复。
 
 #### 证书
 

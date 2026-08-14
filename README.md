@@ -20,6 +20,9 @@ This repository collects useful open-source projects, packages them for multiple
 
 The new Astro website provides searchable project cards, consistent quick-start instructions, lifecycle labels, architecture information, and dedicated project pages. Source is under [`site/`](site/).
 
+- [Contributing guide](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+
 ### Docker usage notes
 
 #### 1. 安装脚本

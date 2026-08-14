@@ -1,6 +1,6 @@
 # x-ui docker image
 
-Go to [Chasing66/x-ui](https://github.com/Chasing66/x-ui) to check the latest update
+Go to [enwaiax/x-ui](https://github.com/enwaiax/x-ui) to check the latest update
 
 > x-ui in docker version
 
@@ -57,7 +57,7 @@ Note: If you want to use [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-u
 
 ```
 mkdir x-ui && cd x-ui
-wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
+curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/x-ui/docker-compose.yml
 docker compose up -d
 ```
 
