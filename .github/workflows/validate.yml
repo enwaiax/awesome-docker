@@ -73,6 +73,10 @@ jobs:
 
       - name: Validate Compose file
         if: hashFiles(format('images/{0}/docker-compose.yml', matrix.project)) != ''
+        env:
+          ARIA2_RPC_SECRET: ci-validation-only
+          MADDY_HOSTNAME: mx.example.test
+          MADDY_DOMAIN: example.test
         run: docker compose -f "images/${{ matrix.project }}/docker-compose.yml" config -q
 
   website:
