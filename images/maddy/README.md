@@ -1,5 +1,7 @@
 # maddy
 
+> This image tracks the pinned upstream release **Maddy v0.9.5** and supports AMD64 and ARM64.
+
 GitHub [enwaiax/awesome-docker](https://github.com/enwaiax/awesome-docker/tree/main/images/maddy)
 Docker [enwaiax/maddy](https://hub.docker.com/r/enwaiax/maddy)
 
@@ -33,15 +35,16 @@ docker volume create maddydata
 
 #### 2. 创建 tls 证书
 
-申请证书步骤略过，将证书 copy 并重命为`tls_key.pem`和`tls_cert.pem`到 volume 目录
+申请证书步骤略过。将证书链和私钥分别保存到 volume 中的 `tls/fullchain.pem` 与 `tls/privkey.pem`：
 
 ```shell
 # docker volume 目录
 cd $(docker volume inspect maddydata --format '{{.Mountpoint}}')
 
 # 拷贝并重命名证书到当前目录
-cp /etc/letsencrypt/live/mx1.example.org/cert.pem tls_cert.pem
-cp /etc/letsencrypt/live/mx1.example.org/privkey.pem tls_key.pem
+mkdir -p tls
+cp /etc/letsencrypt/live/mx1.example.org/fullchain.pem tls/fullchain.pem
+cp /etc/letsencrypt/live/mx1.example.org/privkey.pem tls/privkey.pem
 ```
 
 #### 3. 设置 hostname 和 domainname
@@ -60,7 +63,7 @@ docker run -d --name maddy \
   -e MADDY_HOSTNAME=$MADDY_HOSTNAME -e MADDY_DOMAIN=$MADDY_DOMAIN \
   -v maddydata:/data \
   -p 25:25 -p 143:143 -p 465:465 -p 587:587 -p 993:993 \
-  enwaiax/maddy:latest
+  enwaiax/maddy:0.9.5
 ```
 
 ##### 4.2 使用 Docker Compose 创建
@@ -106,8 +109,8 @@ default._domainkey.example.org   TXT    "v=DKIM1; k=ed25519; p=nAcUUozPlhc4VPhp7
 
 ```shell
 docker exec -it maddy sh
-maddyctl creds create postmaster@example.org
-maddyctl imap-acct create postmaster@example.org
+maddy creds create postmaster@example.org
+maddy imap-acct create postmaster@example.org
 ```
 
 ### 备份
