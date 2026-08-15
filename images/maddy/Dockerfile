@@ -1,33 +1,37 @@
-FROM golang:1.17-alpine AS build-env
+FROM golang:1.23-alpine AS build
 
-RUN set -ex ;\
-    apk upgrade --no-cache --available ;\
-    apk add --no-cache bash git build-base
+ARG MADDY_VERSION=v0.9.5
+ARG ADDITIONAL_BUILD_TAGS=""
 
-WORKDIR /maddy
-ADD ./maddy ./
-ENV LDFLAGS=-static
+RUN apk add --no-cache build-base
+
+WORKDIR /src
+COPY ./maddy/go.mod ./maddy/go.sum ./
 RUN go mod download
-RUN mkdir -p /pkg/data
-COPY ./maddy/maddy.conf /pkg/data/maddy.conf
-# Monkey-patch config to use environment.
-RUN sed -Ei 's!\$\(hostname\) = .+!$(hostname) = {env:MADDY_HOSTNAME}!' /pkg/data/maddy.conf
-RUN sed -Ei 's!\$\(primary_domain\) = .+!$(primary_domain) = {env:MADDY_DOMAIN}!' /pkg/data/maddy.conf
-RUN sed -Ei 's!^tls .+!tls file /data/tls_cert.pem /data/tls_key.pem!' /pkg/data/maddy.conf
+COPY ./maddy ./
 
-RUN ./build.sh --builddir /tmp --destdir /pkg/ --tags docker build install
+RUN ./build.sh \
+      --version "${MADDY_VERSION}" \
+      --builddir /tmp/build \
+      --destdir /tmp/package/ \
+      --tags "docker ${ADDITIONAL_BUILD_TAGS}" \
+      build install
 
-FROM alpine:latest
-LABEL maintainer="chasing0806@gmail.com"
-LABEL org.opencontainers.image.source=https://github.com/foxcpp/maddy
+FROM alpine:3.21.2
 
-RUN set -ex ;\
-    apk upgrade --no-cache --available ;\
-    apk --no-cache add ca-certificates
-COPY --from=build-env /pkg/data/maddy.conf /data/maddy.conf
-COPY --from=build-env /pkg/usr/local/bin/maddy /pkg/usr/local/bin/maddyctl /bin/
+ARG MADDY_VERSION=v0.9.5
+LABEL org.opencontainers.image.title="Maddy Mail Server" \
+      org.opencontainers.image.description="Composable all-in-one mail server" \
+      org.opencontainers.image.source="https://github.com/enwaiax/awesome-docker" \
+      org.opencontainers.image.version="${MADDY_VERSION}" \
+      org.opencontainers.image.licenses="GPL-3.0"
 
+RUN apk add --no-cache ca-certificates
 
-EXPOSE 25 143 993 587 465
+COPY --from=build /tmp/package/usr/local/bin/maddy /bin/maddy
+COPY ./maddy/maddy.conf.docker /data/maddy.conf
+
+EXPOSE 25 143 465 587 993
 VOLUME ["/data"]
 ENTRYPOINT ["/bin/maddy", "-config", "/data/maddy.conf"]
+CMD ["run"]

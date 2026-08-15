@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   maddy:
-    image: enwaiax/maddy
+    image: enwaiax/maddy:0.9.5
     container_name: maddy
     restart: unless-stopped
     environment:
@@ -12,6 +12,7 @@ services:
     ports:
       - "25:25"
       - "143:143"
+      - "465:465"
       - "587:587"
       - "993:993"
     logging:

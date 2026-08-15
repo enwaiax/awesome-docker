@@ -31,7 +31,7 @@ export const projects: Project[] = [
     name: 'Maddy Mail Server',
     eyebrow: 'Communication stack',
     summary: '一体化、低维护的个人邮件服务器。',
-    description: '用一个轻量守护进程替代 Postfix、Dovecot、OpenDKIM 等传统组合，并提供清晰的持久化、TLS 与 DNS 部署路径。',
+    description: '基于上游 Maddy v0.9.5，用一个轻量守护进程替代 Postfix、Dovecot、OpenDKIM 等传统组合，并提供清晰的持久化、TLS 与 DNS 部署路径。',
     category: '通信服务',
     status: 'maintained',
     statusLabel: 'Maintained',
@@ -52,7 +52,7 @@ export const projects: Project[] = [
   -v maddydata:/data \\
   -p 25:25 -p 143:143 -p 465:465 \\
   -p 587:587 -p 993:993 \\
-  enwaiax/maddy:latest`,
+  enwaiax/maddy:0.9.5`,
     compose: 'images/maddy/docker-compose.yml',
     notes: ['部署前确认 25 端口可用', '生产环境必须配置 TLS、SPF、DKIM 与 DMARC', '数据集中保存在 maddydata volume'],
   },
