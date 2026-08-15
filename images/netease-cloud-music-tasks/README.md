@@ -1,5 +1,8 @@
 # `netease-cloud-music-tasks`
 
+> [!WARNING]
+> **Archived:** 上游仓库已归档，且本镜像自 2022 年起未再发布。本目录仅保留作历史和迁移参考，不建议用于新的生产部署。
+
 GitHub [enwaiax/awesome-docker](https://github.com/enwaiax/awesome-docker/tree/main/images/netease-cloud-music-tasks)
 Docker [enwaiax/netease-cloud-music-tasks](https://hub.docker.com/r/enwaiax/netease-cloud-music-tasks)
 

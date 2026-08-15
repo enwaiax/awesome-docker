@@ -14,7 +14,7 @@ This repository collects useful open-source projects, packages them for multiple
 | --- | --- | --- | --- |
 | [Maddy](images/maddy/) | All-in-one mail server | AMD64 / ARM64 | Maintained |
 | [Download Bot](images/download-bot/) | Telegram-driven downloads | AMD64 / ARM64 | Community |
-| [Netease Music Tasks](images/netease-cloud-music-tasks/) | Scheduled automation | AMD64 / ARM64 | Community |
+| [Netease Music Tasks](images/netease-cloud-music-tasks/) | Scheduled automation | AMD64 / ARM64 | Archived upstream |
 | [X-UI](images/x-ui/) | Network management panel | Multi-arch | Moved / legacy |
 | [Firefox Send](images/firefox-send/) | Self-hosted file sharing | AMD64 | Archived upstream |
 

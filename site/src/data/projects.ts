@@ -87,11 +87,11 @@ export const projects: Project[] = [
     slug: 'netease-cloud-music-tasks',
     name: 'Netease Music Tasks',
     eyebrow: 'Scheduled jobs',
-    summary: '面向多账号的网易云音乐定时任务容器。',
-    description: '支持签到、云贝任务、定时执行和多种消息推送，并为 AMD64 与 ARM64 环境提供一致的容器运行方式。',
+    summary: '网易云音乐定时任务容器的历史部署方案。',
+    description: '上游仓库已归档，镜像仅保留作历史与迁移参考。现有用户可查阅原部署方式，但不建议在没有安全评估的情况下用于新部署。',
     category: '定时任务',
-    status: 'community',
-    statusLabel: 'Community',
+    status: 'archived',
+    statusLabel: 'Archived',
     accent: '#fb7185',
     glow: 'rgba(251, 113, 133, .22)',
     icon: 'N',
@@ -100,7 +100,7 @@ export const projects: Project[] = [
     sourcePath: 'images/netease-cloud-music-tasks',
     guidePath: 'images/netease-cloud-music-tasks/README.md',
     architectures: ['AMD64', 'ARM64'],
-    tags: ['Scheduler', 'Multi-account', 'Notifications'],
+    tags: ['Scheduler', 'Legacy', 'Archived'],
     ports: [],
     volumes: ['./config.json:/root/config.json'],
     quickStart: `docker run -itd --restart=on-failure \\
@@ -109,7 +109,7 @@ export const projects: Project[] = [
   -e SCHEDULER_MINUTE=30 \\
   --name netease-cloud-music-tasks \\
   enwaiax/netease-cloud-music-tasks:latest`,
-    notes: ['配置文件可能包含账号凭据', '定时参数按容器时区解释', '请遵守上游服务条款'],
+    notes: ['上游仓库已归档，不再建议新部署', '现有镜像最后发布于 2022 年', '配置可能包含账号凭据，迁移或清理时请妥善处理'],
   },
   {
     slug: 'x-ui',
