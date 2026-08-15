@@ -154,7 +154,7 @@ export const projects: Project[] = [
     image: 'mozilla/send',
     upstream: 'https://github.com/mozilla/send',
     sourcePath: 'images/firefox-send',
-    guidePath: 'images/firefox-send/docker-compose.yml',
+    guidePath: 'images/firefox-send/README.md',
     architectures: ['AMD64'],
     tags: ['File sharing', 'Legacy', 'Compose'],
     ports: ['1443'],

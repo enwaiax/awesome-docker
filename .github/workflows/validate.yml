@@ -9,6 +9,8 @@ on:
       - '.github/workflows/builder.yaml'
       - '.github/workflows/image-build.yml'
       - '.github/ISSUE_TEMPLATE/**'
+      - 'docs/image-guide-template.md'
+      - 'scripts/validate-image-guides.py'
       - 'images/maddy/**'
       - 'images/download-bot/**'
       - 'images/netease-cloud-music-tasks/**'
@@ -30,6 +32,15 @@ permissions:
   contents: read
 
 jobs:
+  image-guides:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate image guide contract
+        run: python3 scripts/validate-image-guides.py
+
   dockerfiles:
     runs-on: ubuntu-latest
     strategy:
@@ -62,6 +73,10 @@ jobs:
 
       - name: Validate Compose file
         if: hashFiles(format('images/{0}/docker-compose.yml', matrix.project)) != ''
+        env:
+          ARIA2_RPC_SECRET: ci-validation-only
+          MADDY_HOSTNAME: mx.example.test
+          MADDY_DOMAIN: example.test
         run: docker compose -f "images/${{ matrix.project }}/docker-compose.yml" config -q
 
   website:

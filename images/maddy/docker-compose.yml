@@ -1,12 +1,10 @@
-version: '3.9'
 services:
   maddy:
     image: enwaiax/maddy:0.9.5
-    container_name: maddy
     restart: unless-stopped
     environment:
-      - MADDY_HOSTNAME=$MADDY_HOSTNAME
-      - MADDY_DOMAIN=$MADDY_DOMAIN
+      MADDY_HOSTNAME: ${MADDY_HOSTNAME:?set MADDY_HOSTNAME}
+      MADDY_DOMAIN: ${MADDY_DOMAIN:?set MADDY_DOMAIN}
     volumes:
       - maddydata:/data
     ports:
@@ -23,5 +21,4 @@ services:
 
 volumes:
   maddydata:
-    driver: local
     name: maddydata

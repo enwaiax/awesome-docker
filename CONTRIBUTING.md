@@ -24,7 +24,7 @@ images/<project>/
 └── config/              # 仅放不含凭据的示例配置
 ```
 
-README 至少说明：
+README 必须基于 [`docs/image-guide-template.md`](docs/image-guide-template.md)，并通过 `scripts/validate-image-guides.py`。至少包含：
 
 1. 上游项目和许可证；
 2. 镜像地址、Tag 与支持架构；
@@ -38,10 +38,13 @@ README 至少说明：
 
 ```bash
 # 验证 Compose 文件
-docker compose -f <project>/docker-compose.yml config
+docker compose -f images/<project>/docker-compose.yml config
+
+# 验证 Guide 合同
+python3 scripts/validate-image-guides.py
 
 # 构建当前架构镜像
-docker build -t awesome-docker/<project>:test <project>
+docker build -t awesome-docker/<project>:test images/<project>
 
 # 验证网站
 cd site
