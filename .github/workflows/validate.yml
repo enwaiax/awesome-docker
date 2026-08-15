@@ -9,6 +9,8 @@ on:
       - '.github/workflows/builder.yaml'
       - '.github/workflows/image-build.yml'
       - '.github/ISSUE_TEMPLATE/**'
+      - 'docs/image-guide-template.md'
+      - 'scripts/validate-image-guides.py'
       - 'images/maddy/**'
       - 'images/download-bot/**'
       - 'images/netease-cloud-music-tasks/**'
@@ -30,6 +32,15 @@ permissions:
   contents: read
 
 jobs:
+  image-guides:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate image guide contract
+        run: python3 scripts/validate-image-guides.py
+
   dockerfiles:
     runs-on: ubuntu-latest
     strategy:

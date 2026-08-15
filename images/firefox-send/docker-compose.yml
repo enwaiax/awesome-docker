@@ -1,14 +1,24 @@
-version: "3.8"
 services:
   web:
     image: enwaiax/firefox_send:plus
-    links:
+    restart: unless-stopped
+    depends_on:
       - redis
     ports:
-      - "1443:1443"
-    restart: unless-stopped
+      - "127.0.0.1:1443:1443"
     environment:
-      - REDIS_HOST=redis
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   redis:
     image: redis:alpine
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

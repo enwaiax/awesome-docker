@@ -1,143 +1,127 @@
-# x-ui docker image
+# X-UI historical Docker guide
 
-Go to [enwaiax/x-ui](https://github.com/enwaiax/x-ui) to check the latest update
+> **Lifecycle:** `Moved`
+> **Image:** `enwaiax/x-ui:latest`
+> **Architectures:** historical multi-architecture manifest
+> **Last verified:** `2026-08-15`
 
-> x-ui in docker version
+> This guide is retained for existing users. New deployments should use the maintained repository at https://github.com/enwaiax/x-ui.
 
-You could selecet your perfer one by changing the docker image tag
+## Overview
 
-|                                                           | Tag    | amd64 | arm64 | armv7 | armv6 | s390x |
-| --------------------------------------------------------- | ------ | ----- | ----- | ----- | ----- | ----- |
-| [vaxilu/x-ui](https://github.com/vaxilu/x-ui)             | latest | ✅    | ✅    | ✅    | ✅    | ✅    |
-| [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-ui) | alpha  | ✅    | ✅    | ❌    | ❌    | ✅    |
+- **Upstream:** https://github.com/vaxilu/x-ui
+- **Maintained image repository:** https://github.com/enwaiax/x-ui
+- **Docker Hub:** https://hub.docker.com/r/enwaiax/x-ui
+- **Recommended for new deployments:** `No`
 
-### Why Should You Use Docker
+The image definition in this catalog is not reproducible because it clones a moving upstream branch during build. It is excluded from publishing here.
 
-- Consistent & Isolated Environment
-- Rapid Application Deployment
-- Ensures Scalability & Flexibility
-- Better Portability
-- Cost-Effective
-- In-Built Version Control System
-- Security
-- .....
+## Prerequisites
 
-### For this project, if you use docker
+Existing users need Docker, a backup of the database and certificate directories, the current image digest, and an inventory of every exposed host-network port.
 
-- You don't need to concern yourself with operating systems, architectures and other issues.
-- You will never ruin your Linux server. If you don't want to use it, you can stop or remove it from your environment exactly.
-- Last but not least, you can easily deploy and upgrade
+## Quick start
 
-### Hot to use it
-
-#### Pre-condition, Docker is installed
-
-Use the official one-key script
+Historical recovery command only:
 
 ```bash
-curl -sSL https://get.docker.com/ | sh
+docker run -d \
+  --name x-ui \
+  --restart unless-stopped \
+  --network host \
+  -v "$PWD/db:/etc/x-ui" \
+  -v "$PWD/cert:/root/cert:ro" \
+  enwaiax/x-ui:latest
 ```
 
-#### Start you container
+Historical Compose file:
 
-##### You could use the pre-build docker image enwaiax/xuiplus
-
-```
-mkdir x-ui && cd x-ui
-docker run -itd --network=host \
-    -v $PWD/db/:/etc/x-ui/ \
-    -v $PWD/cert/:/root/cert/ \
-    --name x-ui --restart=unless-stopped \
-    enwaiax/x-ui
-```
-
-Note: If you want to use [FranzKafkaYu/x-ui](https://github.com/FranzKafkaYu/x-ui), change the image as `enwaiax/x-ui:alpha`
-
-##### Or you could use docker compose to start it
-
-```
-mkdir x-ui && cd x-ui
-curl -fsSL -o compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/images/x-ui/docker-compose.yml
+```bash
+curl -fsSLo compose.yaml https://raw.githubusercontent.com/enwaiax/awesome-docker/main/images/x-ui/docker-compose.yml
+docker compose config
 docker compose up -d
 ```
 
-#### How to enable ssl to your x-ui panel
+## Configuration
 
-This part describe how to enable ssl.
+### Environment variables
 
-- Suppose your x-ui port is `54321`
-- Suppose your IP is `10.10.10.10`
-- Suppose your domain is `xui.example.com` and you have set the A recode in cloudflare
-- Suppose you are using Debian 10+ or Ubuntu 18+ system
-- Suppose your email is `xxxx@example.com`
+This catalog does not maintain an environment-variable contract for the historical image. Configuration is stored in the mounted database.
 
-##### Steps as below
+### Ports
 
-1. Install nginx and python3-certbot-nginx
+Host networking means ports are not listed in Compose. Inspect the live process with `ss -lntp`; the historical panel commonly used TCP 54321.
+
+### Volumes
+
+| Host | Container | Contents | Backup |
+| --- | --- | --- | --- |
+| `./db` | `/etc/x-ui` | Database and application configuration | Required |
+| `./cert` | `/root/cert` | TLS certificate and key | Required, encrypted |
+
+### Network and privileges
+
+The container uses the host network namespace. Restrict every panel and proxy port with the host firewall and cloud security groups.
+
+## First-run verification
 
 ```bash
-sudo apt update
-sudo apt install python3-certbot-nginx
+docker ps --filter name=x-ui
+docker logs --tail=200 x-ui
+ss -lntp
 ```
 
-2. Add new nging configurtion
+Immediately replace default credentials and move the management interface away from default settings, following the maintained repository's current instructions.
 
-```
-touch /etc/nginx/conf.d/xui.conf
-```
+## Operations
 
-Add below to the file. Adjust appropriately to your own situation.
+### Logs and status
 
-```nginx
-server {
-    listen 80;
-    listen [::]:80;
-    server_name xui.example.com;
-
-    location / {
-        proxy_redirect off;
-        proxy_pass http://127.0.0.1:54321;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-    }
-
-    # This part desribe how to reverse websockt proxy
-     location /xray {
-         proxy_redirect off;
-         proxy_pass http://127.0.0.1:10001;
-         proxy_http_version 1.1;
-         proxy_set_header Upgrade $http_upgrade;
-         proxy_set_header Connection "upgrade";
-         proxy_set_header X-Real-IP $remote_addr;
-         proxy_set_header Host $http_host;
-         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-         proxy_set_header Y-Real-IP $realip_remote_addr;
-     }
-}
+```bash
+docker logs -f --tail=200 x-ui
+docker inspect x-ui --format '{{.Config.Image}} {{.State.Status}}'
 ```
 
-3. Check yout conf is OK
+### Upgrade
 
-```
-nginx -t
-```
+No upgrade is supported by this catalog. Back up data, record the current digest, and validate migration to the maintained repository on a copy of the database.
 
-4. Get cert
+### Backup and restore
 
-```
-certbot --nginx --agree-tos --no-eff-email --email xxxxx@example.com
-```
-
-For more details, refer to [cerbot](https://certbot.eff.org/)
-
-5. Reload nginx config
-
-```
-ngins -s reload
+```bash
+docker stop x-ui
+tar -czf x-ui-backup.tgz db cert
+docker start x-ui
 ```
 
-6. Test automatic renewal
+Restore to a separate directory first. Never delete the database as a password-reset technique; doing so destroys configuration.
 
+### Stop and uninstall
+
+```bash
+docker rm -f x-ui
 ```
-sudo certbot renew --dry-run
-```
+
+This keeps bind-mounted data. Delete it only after a tested migration and backup.
+
+## Security
+
+- Change default credentials immediately.
+- Do not expose the panel directly to the Internet.
+- Use TLS, firewall rules, access control, and a non-default management path.
+- Protect database, UUID, subscription, and private-key material.
+- Do not treat a successful floating-source build as a trusted release.
+
+## Troubleshooting
+
+### Panel is unreachable
+
+Inspect logs, actual listening ports, host firewall rules, cloud security groups, and the configured web path.
+
+### Password is lost
+
+Back up the database and use the reset procedure for the exact maintained version. Do not remove the data directory.
+
+## Lifecycle and known limitations
+
+This catalog entry is Moved and publish-disabled. Architecture claims describe the historical Docker Hub manifest only. Use https://github.com/enwaiax/x-ui for current releases and instructions.
